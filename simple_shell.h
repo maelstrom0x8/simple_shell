@@ -9,32 +9,13 @@
 
 #include <sys/types.h>
 #include "command.h"
+#include "constants.h"
+#include "types.h"
+
 extern char **environ;
 
-#define SS_OK 0
-#define SS_NOEXIST 1
-#define SS_EXIT 2
-#define SS_CLOSE 3
-#define SS_EOF 65280
-
-#define MAX_ARGS 1024
-#define MAX_CMD_LEN 1024
 
 #define UNUSED(x) (void)(x)
-
-/**
- * struct shell_tag - This structure holds the shell information
- * @close: Status for closing the shell
- * @input: Holds the input passed into the shell
- * @internal_cmd_list: Default commands for the shell
- */
-typedef struct shell_tag
-{
-	int close;
-	char *input;
-	cmd_list_t *internal_cmd_list;
-
-} shell_t;
 
 
 void init_shell(shell_t **shell);
@@ -64,5 +45,19 @@ void trim_input(char *input);
 void sanitize_input(char *input);
 
 void _free(void *ptr);
+
+int process_alias(alias_ct *alias, char **args);
+
+alias_t create_alias(char *argv);
+
+int is_pair(char *pair);
+
+alias_t* find_alias(alias_ct *aliasCt, char *name);
+
+int set_alias(alias_ct *aliasCt, alias_t alias);
+
+int add_alias(alias_ct *aliasCt, alias_t alias);
+
+int print_alias(alias_ct *aliasCt, char *name);
 
 #endif
