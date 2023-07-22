@@ -82,7 +82,7 @@ void sanitize_input(char *input)
 	char *src;
 
 	char *dest = input;
-	bool prev_space = false;
+	int prev_space = 0;
 
 	for (src = input; *src != '\0'; ++src)
 	{
@@ -91,13 +91,13 @@ void sanitize_input(char *input)
 			if (!prev_space)
 			{
 				*dest++ = ' ';
-				prev_space = true;
+				prev_space = 1;
 			}
 		}
 		else
 		{
 			*dest++ = *src;
-			prev_space = false;
+			prev_space = 0;
 		}
 	}
 
