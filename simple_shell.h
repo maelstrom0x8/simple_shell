@@ -46,8 +46,6 @@ void sanitize_input(char *input);
 
 void _free(void *ptr);
 
-int process_alias(alias_ct *alias, char **args);
-
 alias_t create_alias(char *argv);
 
 int is_pair(char *pair);
@@ -59,5 +57,7 @@ int set_alias(alias_ct *aliasCt, alias_t alias);
 int add_alias(alias_ct *aliasCt, alias_t alias);
 
 int print_alias(alias_ct *aliasCt, char *name);
+
+void print_aliases(alias_ct *aliasCt);
 
 #endif
