@@ -34,7 +34,7 @@ int _unsetenv(char **args)
 {
 	if (unsetenv(args[1]) == -1)
 		_puts("unsetenv: failed to unset environment variable\n");
-	return (SS_EXIT);
+	return (SS_CLOSE);
 }
 
 /**
@@ -45,6 +45,8 @@ int _unsetenv(char **args)
 int terminate(char **args)
 {
 	UNUSED(args);
+	printf("exit\n");
+	exit(SS_OK);
 	return (SS_OK);
 }
 
@@ -70,7 +72,7 @@ int printenv(char **args)
 		_puts("\n");
 		envp++;
 	}
-	return (0);
+	return (SS_CLOSE);
 }
 
 

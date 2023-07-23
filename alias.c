@@ -1,6 +1,6 @@
 #include "simple_shell.h"
 
-
+#include <assert.h>
 
 alias_t create_alias(char *arg)
 {
@@ -12,10 +12,67 @@ alias_t create_alias(char *arg)
 		return new_alias;
 	}
 
+	// Check for single quotes
+	char *single_quote = strchr(arg, '\'');
+	// Check for double quotes
+	char *double_quote = strchr(arg, '\"');
+	// Check for equal sign
 	char *equal_sign = strchr(arg, '=');
 
-	if (equal_sign != NULL)
+	if (single_quote != NULL && double_quote != NULL)
 	{
+		// If both single and double quotes are present, handle the one that comes first
+		if (single_quote < double_quote)
+		{
+			single_quote = NULL;
+		}
+		else
+		{
+			double_quote = NULL;
+		}
+	}
+
+	if (single_quote != NULL)
+	{
+		// If single quotes are found, extract the value between the single quotes
+		char *value_start = single_quote + 1;
+		char *value_end = strchr(value_start, '\'');
+
+		if (value_end != NULL)
+		{
+			size_t value_len = value_end - value_start;
+			strncpy(new_alias.value, value_start, value_len);
+		}
+
+		// Check if the equal sign appears before the single quote and if there is a key
+		if (equal_sign != NULL && equal_sign < single_quote)
+		{
+			size_t key_len = equal_sign - arg;
+			strncpy(new_alias.name, arg, key_len);
+		}
+	}
+	else if (double_quote != NULL)
+	{
+		// If double quotes are found, extract the value between the double quotes
+		char *value_start = double_quote + 1;
+		char *value_end = strchr(value_start, '\"');
+
+		if (value_end != NULL)
+		{
+			size_t value_len = value_end - value_start;
+			strncpy(new_alias.value, value_start, value_len);
+		}
+
+		// Check if the equal sign appears before the double quote and if there is a key
+		if (equal_sign != NULL && equal_sign < double_quote)
+		{
+			size_t key_len = equal_sign - arg;
+			strncpy(new_alias.name, arg, key_len);
+		}
+	}
+	else if (equal_sign != NULL)
+	{
+		// If no quotes are found but the equal sign is present, it's a key=value string
 		size_t key_len = equal_sign - arg;
 		size_t value_len = strlen(equal_sign + 1);
 
@@ -34,7 +91,7 @@ alias_t create_alias(char *arg)
 int is_pair(char *pair)
 {
 	char *delim = strchr(pair, '=');
-	if (delim != NULL) 
+	if (delim != NULL)
 		return 0;
 	return 1;
 }
@@ -55,27 +112,26 @@ int set_alias(alias_ct *aliasCt, alias_t alias)
 
 int add_alias(alias_ct *aliasCt, alias_t alias)
 {
-	int count = aliasCt->alias_count;
-	for (int i = 0; i < count; i++)
+	int *countPtr = &(aliasCt->alias_count);
+	for (int i = 0; i < ALIAS_MAX_LIMIT; i++)
 	{
-		if (strcmp(aliasCt->aliases[i].name, "") == 0)
+		if ((strlen(aliasCt->aliases[i].name) == 0) || (aliasCt->aliases[i].name == NULL))
 		{
 			aliasCt->aliases[i] = alias;
-			aliasCt->alias_count++;
+			(*countPtr)++;
+			break;
 		}
 	}
-	return 0;
+	return SS_OK;
 }
-
 
 alias_t *find_alias(alias_ct *aliasCt, char *name)
 {
-	for (int i = 0; i < aliasCt->alias_count; i++)
+	int count = aliasCt->alias_count;
+	for (int i = 0; i < count; i++)
 	{
-		printf("Searching aliases 0/%d\n", aliasCt->alias_count);
 		if (strcmp((aliasCt->aliases)[i].name, name) == 0)
 		{
-			printf("Found alias %s  = \'%s\'", aliasCt->aliases[i].name, aliasCt->aliases[i].value);
 			return &aliasCt->aliases[i];
 		}
 		return NULL;
@@ -87,12 +143,13 @@ int print_alias(alias_ct *aliasCt, char *name)
 	alias_t *alias = find_alias(aliasCt, name);
 	char *value;
 
-	if (alias != NULL)
+	if (alias == NULL)
 	{
-		if (strlen(alias->value) == 0)
-			printf("alias %s=\'%s\'\n", alias->name, value);
-		printf("alias %s=\'%s\'\n", alias->name, alias->value);
+		printf("hsh: alias: %s: not found\n", name);
+		return SS_OK;
 	}
+	printf("alias: %s=\'%s\'\n", alias->name, alias->value);
+	return SS_OK;
 }
 
 void print_aliases(alias_ct *alias_info)

@@ -43,7 +43,7 @@ int run_command(shell_t *shell, char **args)
 
 	status = handle_builtin(shell, args);
 
-	if (status != SS_OK)
+	if (status != SS_CLOSE)
 	{
 		status = handle_external_command(args);
 	}
@@ -80,13 +80,16 @@ int handle_builtin(shell_t *shell, char **args)
 int handle_builtin_alias(shell_t *shell, char **args)
 {
 	int status;
-	if (args == NULL)
+	alias_ct *aliases = &(shell->alias);
+	char **params = (args + 1);
+
+	if (*params == NULL)
 	{
-		print_aliases(&(shell->alias));
-		return SS_OK;
+		print_aliases(aliases);
+		fflush(stdin);
+		return SS_CLOSE;
 	}
 
-	char **params = (args + 1);
 	while (*(params) != NULL)
 	{
 		if (is_pair(*params) == 0)
@@ -103,12 +106,12 @@ int handle_builtin_alias(shell_t *shell, char **args)
 		}
 		else
 		{
-			print_alias(&(shell->alias), *params);
+			status = print_alias(&(shell->alias), *params);
 		}
 		params++;
 	}
 
-	return SS_OK;
+	return SS_CLOSE;
 }
 
 /**
@@ -129,7 +132,7 @@ int handle_external_command(char **args)
 	{
 		_puts(args[0]);
 		_puts(" :  not found\n");
-		return (SS_EXIT);
+		return (SS_CLOSE);
 	}
 	else
 	{
@@ -142,7 +145,7 @@ int handle_external_command(char **args)
 			if (execve(path, args, envp) == -1)
 			{
 				_puts("./shell: No such file or directory\n");
-				return (SS_EXIT);
+				return (SS_CLOSE);
 			}
 		}
 		else if (pid < 0)
@@ -155,7 +158,7 @@ int handle_external_command(char **args)
 			waitpid(pid, &status, 0);
 			free(path);
 		}
-		return (SS_OK);
+		return (SS_CLOSE);
 	}
 }
 

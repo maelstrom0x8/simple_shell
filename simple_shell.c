@@ -15,6 +15,10 @@ void init_shell(shell_t **shell)
 	(*shell)->close = 0;
 	(*shell)->input = NULL;
 	(*shell)->internal_cmd_list = NULL;
+	for (int i=0; i < ALIAS_MAX_LIMIT; i++) {
+		strcpy((*shell)->alias.aliases[i].name, "");
+		strcpy((*shell)->alias.aliases[i].value, "");
+	}
 }
 
 /**
@@ -39,10 +43,10 @@ int main_loop(shell_t *shell)
 			fflush(stdout);
 			status = render_shell(shell);
 		}
-		if (status == SS_EXIT)
-			break;
-		else if (status == SS_CLOSE)
+		if (status != SS_EXIT)
 			continue;
+		else
+			break;
 	}
 
 	return (status);
