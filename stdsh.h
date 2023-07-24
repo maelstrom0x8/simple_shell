@@ -27,4 +27,10 @@ int _putchar(char c);
 
 int _isspace(int c);
 
+int get_enclosed_string(char *string, char *buffer, char c);
+
+int is_enclosed(char *string, char c);
+
+size_t get_distance(const char *first, const char *last);
+
 #endif

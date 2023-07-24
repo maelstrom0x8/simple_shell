@@ -1,90 +1,75 @@
+#include "stdsh.h"
 #include "simple_shell.h"
 
-#include <assert.h>
+
+size_t get_distance(const char *first, const char *last)
+{
+	return (last - first) - 1;
+}
+
+int is_enclosed(char *string, char c)
+{
+	char *first = strchr(string, c);
+	char *last = strchr(first + 1, c);
+
+	if ((first != NULL && last != NULL) && (last - first) > 0)
+		return 0;
+	else
+		return 1;
+}
+
+int get_enclosed_string(char *string, char *buffer, char c)
+{
+	char *first = strchr(string, c);
+	char *last = strchr(first + 1, c);
+	size_t len = get_distance(first, last);
+
+	char *begin = first + 1;
+	strncpy(buffer, begin, len);
+	buffer[len] = '\0';
+	return 1;
+}
 
 alias_t create_alias(char *arg)
 {
 	alias_t new_alias;
 	memset(&new_alias, 0, sizeof(alias_t));
+	char buffer[225];
 
 	if (arg == NULL || strlen(arg) == 0)
-	{
+		return new_alias;
+
+	char *eq = strchr(arg, '=');
+	if (eq != NULL) {
+		strncpy(new_alias.name, arg, (eq - arg));
+	} else {
+		strcpy(new_alias.name, arg);
+		strcpy(new_alias.value, "");
 		return new_alias;
 	}
 
-	// Check for single quotes
-	char *single_quote = strchr(arg, '\'');
-	// Check for double quotes
-	char *double_quote = strchr(arg, '\"');
-	// Check for equal sign
-	char *equal_sign = strchr(arg, '=');
+	char *value = eq + 1;
+	if(value != NULL)
+	strncpy(new_alias.name, arg, (eq - arg));
+	char *singlestart = strchr(eq + 1, '\'');
+	char *doublestart = strchr(eq + 1, '\"');
 
-	if (single_quote != NULL && double_quote != NULL)
+	if (singlestart != NULL && is_enclosed(singlestart, '\'') == 0)
 	{
-		// If both single and double quotes are present, handle the one that comes first
-		if (single_quote < double_quote)
-		{
-			single_quote = NULL;
-		}
-		else
-		{
-			double_quote = NULL;
-		}
+		get_enclosed_string(singlestart, buffer, '\'');
+		printf("Got single quoted alias -> %s\n", buffer);
+		strcpy(new_alias.value, buffer);
+		return new_alias;
 	}
-
-	if (single_quote != NULL)
+	else if (doublestart != NULL && is_enclosed(doublestart, '\"') == 0)
 	{
-		// If single quotes are found, extract the value between the single quotes
-		char *value_start = single_quote + 1;
-		char *value_end = strchr(value_start, '\'');
-
-		if (value_end != NULL)
-		{
-			size_t value_len = value_end - value_start;
-			strncpy(new_alias.value, value_start, value_len);
-		}
-
-		// Check if the equal sign appears before the single quote and if there is a key
-		if (equal_sign != NULL && equal_sign < single_quote)
-		{
-			size_t key_len = equal_sign - arg;
-			strncpy(new_alias.name, arg, key_len);
-		}
+		get_enclosed_string(doublestart, buffer, '\"');
+		printf("Got double quoted alias -> %s\n", buffer);
+		strcpy(new_alias.value, buffer);
+		return new_alias;
 	}
-	else if (double_quote != NULL)
-	{
-		// If double quotes are found, extract the value between the double quotes
-		char *value_start = double_quote + 1;
-		char *value_end = strchr(value_start, '\"');
-
-		if (value_end != NULL)
-		{
-			size_t value_len = value_end - value_start;
-			strncpy(new_alias.value, value_start, value_len);
-		}
-
-		// Check if the equal sign appears before the double quote and if there is a key
-		if (equal_sign != NULL && equal_sign < double_quote)
-		{
-			size_t key_len = equal_sign - arg;
-			strncpy(new_alias.name, arg, key_len);
-		}
-	}
-	else if (equal_sign != NULL)
-	{
-		// If no quotes are found but the equal sign is present, it's a key=value string
-		size_t key_len = equal_sign - arg;
-		size_t value_len = strlen(equal_sign + 1);
-
-		strncpy(new_alias.name, arg, key_len);
-		strncpy(new_alias.value, equal_sign + 1, value_len);
-	}
-	else
-	{
-		strncpy(new_alias.name, arg, sizeof(new_alias.name) - 1);
-		strncpy(new_alias.value, "null", 5);
-	}
-
+	printf("Got unquoted alias -> %s\n", value != NULL? value : buffer );
+	strcpy(new_alias.value, value);
 	return new_alias;
 }
 
