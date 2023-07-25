@@ -1,8 +1,6 @@
-#include "simple_shell.h"
-#include "stdsh.h"
-#include "string.h"
+#include "shutils.h"
+#include "constants.h"
 
-#include <stdbool.h>
 
 /**
  * count_tokens - Count the number of tokens in a string

@@ -1,6 +1,19 @@
-#include "simple_shell.h"
-#include "stdsh.h"
 #include "command.h"
+
+
+/**
+ * cmd_list_size - Size of a command list
+ * @list: Command list
+ * Return: The size of the list
+ */
+size_t cmd_list_size(cmd_list_t *list)
+{
+	if (list == NULL)
+		return (0);
+
+	return (list->size);
+}
+
 
 /**
  * _setenv - Sets an environment variable
@@ -34,7 +47,7 @@ int _unsetenv(char **args)
 {
 	if (unsetenv(args[1]) == -1)
 		_puts("unsetenv: failed to unset environment variable\n");
-	return (SS_EXIT);
+	return (SS_CLOSE);
 }
 
 /**
@@ -45,6 +58,8 @@ int _unsetenv(char **args)
 int terminate(char **args)
 {
 	UNUSED(args);
+	printf("exit\n");
+	exit(SS_OK);
 	return (SS_OK);
 }
 
@@ -70,20 +85,6 @@ int printenv(char **args)
 		_puts("\n");
 		envp++;
 	}
-	return (0);
-}
-
-
-/**
- * cmd_list_size - Size of a command list
- * @list: Command list
- * Return: The size of the list
- */
-size_t cmd_list_size(cmd_list_t *list)
-{
-	if (list == NULL)
-		return (0);
-
-	return (list->size);
+	return (SS_CLOSE);
 }
 

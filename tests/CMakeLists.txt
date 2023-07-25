@@ -3,6 +3,8 @@ project(simple_shell)
 
 include_directories("../")
 
+set(CMAKE_ENABLE_EXPORTS ON)
+
 FILE(GLOB SS_SOURCES ../*.c)
 FILE(GLOB TEST_SOURCES ./*.c)
 

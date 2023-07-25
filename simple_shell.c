@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#include "simple_shell.h"
-#include "stdsh.h"
 #include "command.h"
+#include "shutils.h"
+#include "simple_shell.h"
 
 /**
  * init_shell - Initializes the shell object
@@ -15,6 +15,10 @@ void init_shell(shell_t **shell)
 	(*shell)->close = 0;
 	(*shell)->input = NULL;
 	(*shell)->internal_cmd_list = NULL;
+	for (int i=0; i < ALIAS_MAX_LIMIT; i++) {
+		strcpy((*shell)->alias.aliases[i].name, "");
+		strcpy((*shell)->alias.aliases[i].value, "");
+	}
 }
 
 /**
@@ -28,7 +32,7 @@ int main_loop(shell_t *shell)
 
 	while (1)
 	{
-		if (!isatty(fileno(stdin)))
+		if (!isatty(STDIN_FILENO))
 		{
 			render_shell(shell);
 			break;
@@ -39,10 +43,10 @@ int main_loop(shell_t *shell)
 			fflush(stdout);
 			status = render_shell(shell);
 		}
-		if (status == SS_EXIT)
-			break;
-		else if (status == SS_CLOSE)
+		if (status != SS_EXIT)
 			continue;
+		else
+			break;
 	}
 
 	return (status);
@@ -97,6 +101,7 @@ int render_shell(shell_t *shell)
 	return (result);
 }
 
+
 /**
  * parse_command - Parse input command
  * @shell: Shell object
@@ -120,8 +125,15 @@ int parse_command(shell_t *shell)
 	sanitize_input(shell->input);
 
 	if (!shell->input || shell->input[0] == '\0' || shell->input[0] == '\n')
-	{
 		return (SS_CLOSE);
+
+	char *delim_space = strchr(shell->input, ' ');
+
+	if(strncmp(shell->input, "alias", 5) == 0) {
+		if(delim_space)
+			return handle_builtin_alias(shell, delim_space + 1);
+		else
+			return handle_builtin_alias(shell, NULL);
 	}
 
 	args = tokenize_args(shell->input, &num_tokens);
