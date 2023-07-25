@@ -32,7 +32,7 @@ int main_loop(shell_t *shell)
 
 	while (1)
 	{
-		if (!isatty(fileno(stdin)))
+		if (!isatty(STDIN_FILENO))
 		{
 			render_shell(shell);
 			break;

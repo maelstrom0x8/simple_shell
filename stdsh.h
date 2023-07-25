@@ -3,7 +3,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 #include <sys/types.h>
 #include <string.h>
 
@@ -26,15 +25,5 @@ void _puts(const char *string);
 int _putchar(char c);
 
 int _isspace(int c);
-
-int get_enclosed_string(char *string, char *buffer, char c);
-
-int is_enclosed(char *string, char c);
-
-size_t get_distance(const char *first, const char *last);
-
-char* concatenate_strings(char** string_array, size_t num_strings);
-
-char **tokenize_alias_arg(char *input_string, size_t *num_tokens);
 
 #endif
