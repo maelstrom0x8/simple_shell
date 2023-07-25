@@ -62,39 +62,35 @@ int handle_builtin(shell_t *shell, char **args)
 {
 	icmd_mapping *cmd = find_command(shell->internal_cmd_list, args[0]);
 
-	if (cmd == NULL)
-	{
-		if (strcmp(args[0], "alias") == 0)
-		{
-			return (handle_builtin_alias(shell, args));
-		}
-	}
-	else
+	if (cmd != NULL)
 	{
 		return cmd->function(args);
 	}
+
 	return SS_OK;
 }
 
 
-int handle_builtin_alias(shell_t *shell, char **args)
+int handle_builtin_alias(shell_t *shell, char *args)
 {
 	int status;
 	alias_ct *aliases = &(shell->alias);
-	char **params = (args + 1);
 
-	if (*params == NULL)
+	if (args == NULL)
 	{
 		print_aliases(aliases);
 		fflush(stdin);
 		return SS_CLOSE;
 	}
 
-	while (*(params) != NULL)
+	size_t num_tokens = 0;
+	char** tokens = tokenize_alias_arg(args, &num_tokens);
+
+	for (size_t i = 0; i < num_tokens; ++i)
 	{
-		if (is_pair(*params) == 0)
+		if (is_pair(tokens[i]) == 0)
 		{
-			alias_t alias = create_alias(*params);
+			alias_t alias = create_alias(tokens[i]);
 			if (find_alias(&(shell->alias), alias.name) != NULL)
 			{
 				status = set_alias(&(shell->alias), alias);
@@ -106,11 +102,10 @@ int handle_builtin_alias(shell_t *shell, char **args)
 		}
 		else
 		{
-			status = print_alias(&(shell->alias), *params);
+			status = print_alias(&(shell->alias), tokens[i]);
 		}
-		params++;
 	}
-
+	free(tokens);
 	return SS_CLOSE;
 }
 

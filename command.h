@@ -30,7 +30,7 @@ int change_directory(char **args);
 
 int handle_external_command(char **args);
 
-int handle_builtin_alias(shell_t *shell, char **args);
+int handle_builtin_alias(shell_t *shell, char *args);
 
 int handle_builtin(shell_t *shell, char **args);
 

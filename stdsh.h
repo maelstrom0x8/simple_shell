@@ -33,4 +33,8 @@ int is_enclosed(char *string, char c);
 
 size_t get_distance(const char *first, const char *last);
 
+char* concatenate_strings(char** string_array, size_t num_strings);
+
+char **tokenize_alias_arg(char *input_string, size_t *num_tokens);
+
 #endif

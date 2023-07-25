@@ -101,6 +101,14 @@ int render_shell(shell_t *shell)
 	return (result);
 }
 
+void print_args(char ** args) {
+	while(*args != NULL) {
+		printf("%s | ", *args);
+		args++;
+	}
+	printf("\n");
+}
+
 /**
  * parse_command - Parse input command
  * @shell: Shell object
@@ -126,6 +134,15 @@ int parse_command(shell_t *shell)
 	if (!shell->input || shell->input[0] == '\0' || shell->input[0] == '\n')
 	{
 		return (SS_CLOSE);
+	}
+
+	char *delim_space = strchr(shell->input, ' ');
+
+	if(strncmp(shell->input, "alias", 5) == 0) {
+		if(delim_space)
+			return handle_builtin_alias(shell, delim_space + 1);
+		else
+			return handle_builtin_alias(shell, NULL);
 	}
 
 	args = tokenize_args(shell->input, &num_tokens);

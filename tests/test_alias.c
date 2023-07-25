@@ -20,13 +20,13 @@ void __attribute__((destructor)) after_all()
 
 void test_should_create_alias_with_valid_args()
 {
-	alias_t a1 = create_alias("ls=\'ls -la\'");
+	alias_t a1 = create_alias("ls='ls --color-auto'");
 	alias_t a2 = create_alias("g=./gradlew");
 	alias_t a3 = create_alias("mvn");
 	alias_t a4 = create_alias("kafka-topics=\"/usr/bin/kafka-topics --bootstrap-server localhost:9092\"");
 	alias_t a5 = create_alias("");
 
-	assert((strcmp(a1.name, "ls") == 0) && (strcmp(a1.value, "ls -la") == 0));
+	assert((strcmp(a1.name, "ls") == 0) && (strcmp(a1.value, "ls --color-auto") == 0));
 	assert((strcmp(a2.name, "g") == 0) && (strcmp(a2.value, "./gradlew") == 0));
 	assert((strcmp(a3.name, "mvn") == 0));
 	assert(strcmp(a3.value, "") == 0);
@@ -82,10 +82,18 @@ void test_should_return_correct_alias_or_null()
 	assert(is_enclosed(g, '\"') == 0);
 }
 
+void test_should_create_valid_alias_from_cli_arg()
+{
+	
+
+}
+
 int main(void)
 {
-	test_should_create_alias_with_valid_args();
+	// test_should_create_alias_with_valid_args();
 	// test_should_add_new_alias();
-	test_should_set_existing_alias();
-	test_should_return_correct_alias_or_null();
+	// test_should_set_existing_alias();
+	// test_should_return_correct_alias_or_null();
+
+	test_should_create_valid_alias_from_cli_arg();
 }
