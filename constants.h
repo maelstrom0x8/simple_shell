@@ -13,4 +13,6 @@
 #define MAX_ARGS 1024
 #define MAX_CMD_LEN 1024
 
+extern char **environ;
+
 #endif

@@ -1,9 +1,11 @@
 #ifndef TYPES_H
 #define TYPES_H
 
+#include <stdlib.h>
+
 #include "constants.h"
 
-
+#define UNUSED(x) (void)(x)
 
 typedef int (*icommand_interface)(char **args);
 

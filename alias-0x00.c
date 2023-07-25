@@ -1,5 +1,7 @@
-#include "stdsh.h"
-#include "simple_shell.h"
+#include "alias.h"
+
+
+
 int add_alias(alias_ct *aliasCt, alias_t alias)
 {
 	int *countPtr = &(aliasCt->alias_count);

@@ -1,5 +1,4 @@
 #include "simple_shell.h"
-#include "stdsh.h"
 
 /**
  * main - Entry point

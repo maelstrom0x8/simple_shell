@@ -1,9 +1,8 @@
 #ifndef ALIAS_H
 #define ALIAS_H
 
-#include <stdlib.h>
+#include "shutils.h"
 #include "types.h"
-
 
 
 alias_t *find_alias(alias_ct *aliasCt, char *name);

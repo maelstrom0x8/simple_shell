@@ -55,6 +55,7 @@ char **tokenize_alias_arg(char *input_string, size_t *num_tokens)
 	size_t token_count = 0;
 	int within_quotes = 0;
 	char *current = input_string;
+
 	while (*current != '\0')
 	{
 		if (*current == '\'' || *current == '\"')
@@ -70,12 +71,12 @@ char **tokenize_alias_arg(char *input_string, size_t *num_tokens)
 	token_count++;
 
 	char **tokens = (char **)malloc(token_count * sizeof(char *));
+
 	if (tokens == NULL)
 	{
 		*num_tokens = 0;
-		return NULL;
+		return (NULL);
 	}
-
 	size_t token_index = 0;
 	within_quotes = 0;
 	current = input_string;
@@ -83,9 +84,7 @@ char **tokenize_alias_arg(char *input_string, size_t *num_tokens)
 	while (*current != '\0')
 	{
 		if (*current == '\'' || *current == '\"')
-		{
 			within_quotes = !within_quotes;
-		}
 		else if (*current == ' ' && !within_quotes)
 		{
 			*current = '\0';
@@ -93,9 +92,8 @@ char **tokenize_alias_arg(char *input_string, size_t *num_tokens)
 		}
 		current++;
 	}
-
 	*num_tokens = token_count;
-	return tokens;
+	return (tokens);
 }
 
 size_t get_distance(const char *first, const char *last)

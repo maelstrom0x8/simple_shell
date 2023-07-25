@@ -1,6 +1,19 @@
-#include "simple_shell.h"
-#include "stdsh.h"
 #include "command.h"
+
+
+/**
+ * cmd_list_size - Size of a command list
+ * @list: Command list
+ * Return: The size of the list
+ */
+size_t cmd_list_size(cmd_list_t *list)
+{
+	if (list == NULL)
+		return (0);
+
+	return (list->size);
+}
+
 
 /**
  * _setenv - Sets an environment variable
@@ -73,19 +86,5 @@ int printenv(char **args)
 		envp++;
 	}
 	return (SS_CLOSE);
-}
-
-
-/**
- * cmd_list_size - Size of a command list
- * @list: Command list
- * Return: The size of the list
- */
-size_t cmd_list_size(cmd_list_t *list)
-{
-	if (list == NULL)
-		return (0);
-
-	return (list->size);
 }
 

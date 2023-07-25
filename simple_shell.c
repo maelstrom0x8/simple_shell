@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#include "simple_shell.h"
-#include "stdsh.h"
 #include "command.h"
+#include "shutils.h"
+#include "simple_shell.h"
 
 /**
  * init_shell - Initializes the shell object
@@ -101,13 +101,6 @@ int render_shell(shell_t *shell)
 	return (result);
 }
 
-void print_args(char ** args) {
-	while(*args != NULL) {
-		printf("%s | ", *args);
-		args++;
-	}
-	printf("\n");
-}
 
 /**
  * parse_command - Parse input command
@@ -132,9 +125,7 @@ int parse_command(shell_t *shell)
 	sanitize_input(shell->input);
 
 	if (!shell->input || shell->input[0] == '\0' || shell->input[0] == '\n')
-	{
 		return (SS_CLOSE);
-	}
 
 	char *delim_space = strchr(shell->input, ' ');
 

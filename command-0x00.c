@@ -1,7 +1,4 @@
-#include "simple_shell.h"
-#include "stdsh.h"
 #include "command.h"
-
 
 
 

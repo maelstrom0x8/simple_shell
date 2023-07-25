@@ -1,8 +1,7 @@
 #ifndef COMMAND_H
 #define COMMAND_H
 
-#include <stdio.h>
-
+#include "shutils.h"
 #include "types.h"
 
 
@@ -35,5 +34,9 @@ int handle_builtin_alias(shell_t *shell, char *args);
 int handle_builtin(shell_t *shell, char **args);
 
 void populate_commands(cmd_list_t **list);
+
+int parse_command(shell_t *shell);
+
+int run_command(shell_t *shell, char **args);
 
 #endif

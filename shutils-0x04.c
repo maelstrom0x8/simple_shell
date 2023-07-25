@@ -1,9 +1,6 @@
-#include <unistd.h>
-#include <string.h>
-#include "simple_shell.h"
-#include "stdsh.h"
-#include <stdio.h>
-#include <stdlib.h>
+#include "shutils.h"
+
+
 
 /**
  * check_path - A function that checks if a command is
