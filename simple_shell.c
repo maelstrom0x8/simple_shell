@@ -15,7 +15,8 @@ void init_shell(shell_t **shell)
 	(*shell)->close = 0;
 	(*shell)->input = NULL;
 	(*shell)->internal_cmd_list = NULL;
-	for (int i=0; i < ALIAS_MAX_LIMIT; i++) {
+	for (int i = 0; i < ALIAS_MAX_LIMIT; i++)
+	{
 		strcpy((*shell)->alias.aliases[i].name, "");
 		strcpy((*shell)->alias.aliases[i].value, "");
 	}
@@ -101,7 +102,6 @@ int render_shell(shell_t *shell)
 	return (result);
 }
 
-
 /**
  * parse_command - Parse input command
  * @shell: Shell object
@@ -129,18 +129,17 @@ int parse_command(shell_t *shell)
 
 	char *delim_space = strchr(shell->input, ' ');
 
-	if(strncmp(shell->input, "alias", 5) == 0) {
-		if(delim_space)
-			return handle_builtin_alias(shell, delim_space + 1);
+	if (strncmp(shell->input, "alias", 5) == 0)
+	{
+		if (delim_space)
+			return (handle_builtin_alias(shell, delim_space + 1));
 		else
-			return handle_builtin_alias(shell, NULL);
+			return (handle_builtin_alias(shell, NULL));
 	}
 
 	args = tokenize_args(shell->input, &num_tokens);
 	if (args == NULL)
-	{
 		return (SS_EOF);
-	}
 
 	status = run_command(shell, args);
 
@@ -154,6 +153,5 @@ int parse_command(shell_t *shell)
 	}
 	free(args);
 	args = NULL;
-
 	return (status);
 }

@@ -11,8 +11,6 @@ alias_t create_alias(char *arg);
 
 char **tokenize_alias_arg(char *input_string, size_t *num_tokens);
 
-char *concatenate_strings(char **string_array, size_t num_strings);
-
 int add_alias(alias_ct *aliasCt, alias_t alias);
 
 int get_enclosed_string(char *string, char *buffer, char c);

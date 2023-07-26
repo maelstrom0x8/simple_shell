@@ -1,55 +1,32 @@
 #include "alias.h"
 
-
-int print_alias(alias_ct *aliasCt, char *name)
+/**
+ * print_alias - Searches for and prints an alias
+ * @aliasct: Alias info object
+ * @name: Name of the alias
+ * Return: int
+*/
+int print_alias(alias_ct *aliasct, char *name)
 {
-	alias_t *alias = find_alias(aliasCt, name);
+	alias_t *alias = find_alias(aliasct, name);
 	char *value;
 
 	if (alias == NULL)
 	{
 		printf("hsh: alias: %s: not found\n", name);
-		return SS_OK;
+		return (SS_OK);
 	}
 	printf("alias: %s=\'%s\'\n", alias->name, alias->value);
-	return SS_OK;
+	return (SS_OK);
 }
 
-char *concatenate_strings(char **string_array, size_t num_strings)
-{
-	size_t total_length = 0;
-	for (size_t i = 0; i < num_strings; ++i)
-	{
-		total_length += strlen(string_array[i]);
-		if (i < num_strings - 1)
-		{
-			total_length += 1;
-		}
-	}
-
-	char *concatenated_string = (char *)malloc(total_length + 1);
-	if (concatenated_string == NULL)
-	{
-		return NULL;
-	}
-
-	size_t current_pos = 0;
-	for (size_t i = 0; i < num_strings; ++i)
-	{
-		size_t str_length = strlen(string_array[i]);
-		strncpy(&concatenated_string[current_pos], string_array[i], str_length);
-		current_pos += str_length;
-	
-		if (i < num_strings - 1)
-		{
-			concatenated_string[current_pos] = ' ';
-			current_pos += 1;
-		}
-	}
-	concatenated_string[total_length] = '\0';
-	return concatenated_string;
-}
-
+/**
+ * tokenize_alias_arg - Tokenizes the argument passed to the alias
+ * command
+ * @input_string: The arguement string
+ * @num_tokens: Address to store the number of tokens
+ * Return: Array of strings
+*/
 char **tokenize_alias_arg(char *input_string, size_t *num_tokens)
 {
 	size_t token_count = 0;
@@ -59,17 +36,12 @@ char **tokenize_alias_arg(char *input_string, size_t *num_tokens)
 	while (*current != '\0')
 	{
 		if (*current == '\'' || *current == '\"')
-		{
 			within_quotes = !within_quotes;
-		}
 		else if (*current == ' ' && !within_quotes)
-		{
 			token_count++;
-		}
 		current++;
 	}
 	token_count++;
-
 	char **tokens = (char **)malloc(token_count * sizeof(char *));
 
 	if (tokens == NULL)
@@ -78,9 +50,11 @@ char **tokenize_alias_arg(char *input_string, size_t *num_tokens)
 		return (NULL);
 	}
 	size_t token_index = 0;
+
 	within_quotes = 0;
 	current = input_string;
 	tokens[token_index++] = (char *)current;
+
 	while (*current != '\0')
 	{
 		if (*current == '\'' || *current == '\"')
@@ -96,11 +70,24 @@ char **tokenize_alias_arg(char *input_string, size_t *num_tokens)
 	return (tokens);
 }
 
+/**
+ * get_distance - Calculate the distance between pointers
+ * @first: First pointer, expected to be before the last pointer
+ * @last: Last pointer
+ * Return: The distance
+*/
 size_t get_distance(const char *first, const char *last)
 {
-	return (last - first) - 1;
+	return ((last - first) - 1);
 }
 
+
+/**
+ * is_enclosed - Checks if a string is enclosed by a character
+ * @string: String
+ * @c: Character
+ * Return: int
+*/
 int is_enclosed(char *string, char c)
 {
 	char *first = strchr(string, c);
@@ -108,11 +95,11 @@ int is_enclosed(char *string, char c)
 
 	if ((first != NULL && last != NULL) && (first != last))
 	{
-		return 0;
+		return (0);
 	}
 	else
 	{
-		return 1;
+		return (1);
 	}
 }
 

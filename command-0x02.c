@@ -7,8 +7,6 @@
 #include "shutils.h"
 #include "simple_shell.h"
 
-
-
 /**
  * populate_commands - Populates the command list
  * with the default commands
@@ -22,8 +20,6 @@ void populate_commands(cmd_list_t **list)
 	add_command(*list, "unsetenv", _unsetenv);
 	add_command(*list, "cd", change_directory);
 }
-
-
 
 /**
  * run_command - A function that executes a command with given arguments.
@@ -46,10 +42,9 @@ int run_command(shell_t *shell, char **args)
 	return (status);
 }
 
-
 /**
  * handle_builtin - Handles builtin commands
- * @list: Command list
+ * @shell: Global shell object
  * @args: Arguments
  * Return: int
  */
@@ -59,13 +54,19 @@ int handle_builtin(shell_t *shell, char **args)
 
 	if (cmd != NULL)
 	{
-		return cmd->function(args);
+		return (cmd->function(args));
 	}
 
-	return SS_OK;
+	return (SS_OK);
 }
 
 
+/**
+ * handle_builtin_alias - Handle alias command
+ * @shell: Global shell object
+ * @args: Arguments
+ * Return: int
+*/
 int handle_builtin_alias(shell_t *shell, char *args)
 {
 	int status;
@@ -75,17 +76,18 @@ int handle_builtin_alias(shell_t *shell, char *args)
 	{
 		print_aliases(aliases);
 		fflush(stdin);
-		return SS_CLOSE;
+		return (SS_CLOSE);
 	}
 
 	size_t num_tokens = 0;
-	char** tokens = tokenize_alias_arg(args, &num_tokens);
+	char **tokens = tokenize_alias_arg(args, &num_tokens);
 
 	for (size_t i = 0; i < num_tokens; ++i)
 	{
 		if (is_pair(tokens[i]) == 0)
 		{
 			alias_t alias = create_alias(tokens[i]);
+
 			if (find_alias(&(shell->alias), alias.name) != NULL)
 			{
 				status = set_alias(&(shell->alias), alias);
@@ -101,7 +103,7 @@ int handle_builtin_alias(shell_t *shell, char *args)
 		}
 	}
 	free(tokens);
-	return SS_CLOSE;
+	return (SS_CLOSE);
 }
 
 /**
@@ -151,4 +153,3 @@ int handle_external_command(char **args)
 		return (SS_CLOSE);
 	}
 }
-
