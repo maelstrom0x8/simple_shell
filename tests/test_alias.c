@@ -55,8 +55,8 @@ void test_should_add_new_alias()
 void test_should_set_existing_alias()
 {
 	char *arg = "key=\"value --og-curve -b\"";
-	char *q1 = strchr(arg, '\"');
-	char *q2 = strchr(q1 + 1, '\"');
+	char *q1 = _strchr(arg, '\"');
+	char *q2 = _strchr(q1 + 1, '\"');
 	assert(q1 != NULL);
 	assert(q2 != NULL);
 	size_t len = get_distance(q1, q2);

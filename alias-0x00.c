@@ -14,7 +14,7 @@ int add_alias(alias_ct *aliasct, alias_t alias)
 
 	for (i = 0; i < ALIAS_MAX_LIMIT; i++)
 	{
-		if ((strlen(aliasct->aliases[i].name) == 0) ||
+		if ((_strlen(aliasct->aliases[i].name) == 0) ||
 			(aliasct->aliases[i].name == NULL))
 		{
 			aliasct->aliases[i] = alias;
@@ -38,7 +38,7 @@ alias_t *find_alias(alias_ct *aliasct, char *name)
 
 	for (i = 0; i < count; i++)
 	{
-		if (strcmp((aliasct->aliases)[i].name, name) == 0)
+		if (_strcmp((aliasct->aliases)[i].name, name) == 0)
 		{
 			return (&aliasct->aliases[i]);
 		}
@@ -74,41 +74,41 @@ alias_t create_alias(char *arg)
 	char *value, *eq, *singlestart, *doublestart;
 	char buffer[225];
 
-	memset(&new_alias, 0, sizeof(alias_t));
+	_memset(&new_alias, 0, sizeof(alias_t));
 	if (arg == NULL || strlen(arg) == 0)
 		return (new_alias);
-	eq = strchr(arg, '=');
+	eq = _strchr(arg, '=');
 
 	if (eq != NULL)
 	{
-		strncpy(new_alias.name, arg, (eq - arg));
+		_strncpy(new_alias.name, arg, (eq - arg));
 	}
 	else
 	{
-		strcpy(new_alias.name, arg);
-		strcpy(new_alias.value, "");
+		_strcpy(new_alias.name, arg);
+		_strcpy(new_alias.value, "");
 		return (new_alias);
 	}
 	value = eq + 1;
 
 	if (value != NULL)
-		strncpy(new_alias.name, arg, (eq - arg));
-	singlestart = strchr(eq + 1, '\'');
-	doublestart = strchr(eq + 1, '\"');
+		_strncpy(new_alias.name, arg, (eq - arg));
+	singlestart = _strchr(eq + 1, '\'');
+	doublestart = _strchr(eq + 1, '\"');
 
 	if (singlestart != NULL && is_enclosed(singlestart, '\'') == 0)
 	{
 		get_enclosed_string(singlestart, buffer, '\'');
-		strcpy(new_alias.value, buffer);
+		_strcpy(new_alias.value, buffer);
 		return (new_alias);
 	}
 	else if (doublestart != NULL && is_enclosed(doublestart, '\"') == 0)
 	{
 		get_enclosed_string(doublestart, buffer, '\"');
-		strcpy(new_alias.value, buffer);
+		_strcpy(new_alias.value, buffer);
 		return (new_alias);
 	}
-	strcpy(new_alias.value, value);
+	_strcpy(new_alias.value, value);
 	return (new_alias);
 }
 
@@ -126,7 +126,7 @@ int set_alias(alias_ct *aliasct, alias_t alias)
 
 	for (i = 0; i < count; i++)
 	{
-		if (strcmp(aliasct->aliases[i].name, alias.name) == 0)
+		if (_strcmp(aliasct->aliases[i].name, alias.name) == 0)
 		{
 			aliasct->aliases[i] = alias;
 			return (0);

@@ -43,8 +43,7 @@ char **tokenize_args(char *line, int *num_tokens)
 	(*num_tokens) = 0;
 	while (token != NULL)
 	{
-		/* TODO: Add custom implementation for strdup */
-		args[*num_tokens] = strdup(token);
+		args[*num_tokens] = _strdup(token);
 		(*num_tokens)++;
 		token = strtok(NULL, " \n");
 	}

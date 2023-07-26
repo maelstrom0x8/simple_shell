@@ -36,7 +36,7 @@ void add_command(cmd_list_t *list, char *name, icommand_interface func)
 	{
 		node->cmd_ = (icmd_mapping *) malloc(sizeof(icmd_mapping));
 		node->cmd_->command = (char *)malloc(sizeof(char) * (strlen(name) + 1));
-		strcpy((char *)node->cmd_->command, name);
+		_strcpy((char *)node->cmd_->command, name);
 		node->cmd_->function = func;
 		node->next = NULL;
 	}

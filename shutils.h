@@ -11,11 +11,19 @@ char *_strcpy(char *s1, const char *s2);
 
 char *_strdup(const char *str);
 
+int _strncmp(const char *s1, const char *s2, int nbytes);
+
 char *_strtok(char *str, const char *delimiters);
 
-char **tokenize_args(char *args, int *num_tokens);
+char *_strncpy(char *dest, char *src, int n);
 
-char *basename(char *path);
+char *_strpbrk(char *s, char *accept);
+
+void *_memset(void *block, int c, size_t n);
+
+char *_strchr(char *s, char c);
+
+char **tokenize_args(char *args, int *num_tokens);
 
 char *check_path(char *cmd);
 

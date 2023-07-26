@@ -22,7 +22,7 @@ char *check_path(char *command)
 		return (NULL);
 	}
 
-	path_copy = strdup(path);
+	path_copy = _strdup(path);
 	dir = strtok(path_copy, ":");
 
 	while (dir != NULL)
@@ -34,7 +34,7 @@ char *check_path(char *command)
 		if (access(command_path, X_OK) == 0)
 		{
 			free(path_copy);
-			return (strdup(command_path));
+			return (_strdup(command_path));
 		}
 
 		dir = strtok(NULL, ":");
@@ -44,25 +44,6 @@ char *check_path(char *command)
 	return (NULL);
 }
 
-/**
- * basename - A function that returns the filename component of
- * a path string.
- * Description: This function takes a string representing a path
- * as an argument and returns the filename
- * component of the path. For example, if the path is "/usr/bin/cat",
- * the function returns "cat".
- * @path: A string representing a path.
- * Return: A string representing the filename component of the path.
- */
-char *basename(char *path)
-{
-	char *base = strrchr(path, '/');
-
-	if (base == NULL)
-		return (path);
-	else
-		return ((base) + 1);
-}
 
 /**
  * is_absolute - Checks if a path is absolute
@@ -75,4 +56,63 @@ int is_absolute(char *path)
 		return (0);
 	else
 		return (1);
+}
+
+/**
+ * _strncmp - Compares two strings up to a limit
+ * @s1: First string
+ * @s2: Second string
+ * @nbytes: Number of characters to compare
+ * Return: int
+*/
+int _strncmp(const char *s1, const char *s2, int nbytes)
+{
+	if (s1 == NULL && s2 == NULL)
+	{
+		return (1);
+	}
+
+	while (nbytes > 0)
+	{
+		if (*s1 != *s2)
+		{
+			return ((*s1) - (*s2));
+		}
+		if (*s1 == '\0')
+		{
+			return (0);
+		}
+		s1++;
+		s2++;
+		nbytes--;
+	}
+	return (0);
+}
+
+
+/**
+ * _strncpy -  A function that copies a string
+ * @dest: pointer to resulting string
+ * @src: string source
+ * @n: size of string to copy
+ * Return: string
+ */
+
+char *_strncpy(char *dest, char *src, int n)
+{
+	int i = 0;
+
+	while (i < n && src[i] != '\0')
+	{
+		dest[i] = src[i];
+		i++;
+	}
+
+	while (i < n)
+	{
+		dest[i] = '\0';
+		i++;
+	}
+
+	return (dest);
 }

@@ -90,8 +90,8 @@ size_t get_distance(const char *first, const char *last)
 */
 int is_enclosed(char *string, char c)
 {
-	char *first = strchr(string, c);
-	char *last = strchr(first + 1, c);
+	char *first = _strchr(string, c);
+	char *last = _strchr(first + 1, c);
 
 	if ((first != NULL && last != NULL) && (first != last))
 	{

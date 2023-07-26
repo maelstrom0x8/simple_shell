@@ -19,8 +19,8 @@ void init_shell(shell_t **shell)
 	(*shell)->internal_cmd_list = NULL;
 	for (i = 0; i < ALIAS_MAX_LIMIT; i++)
 	{
-		strcpy((*shell)->alias.aliases[i].name, "");
-		strcpy((*shell)->alias.aliases[i].value, "");
+		_strcpy((*shell)->alias.aliases[i].name, "");
+		_strcpy((*shell)->alias.aliases[i].value, "");
 	}
 }
 
@@ -130,9 +130,9 @@ int parse_command(shell_t *shell)
 	if (!shell->input || shell->input[0] == '\0' || shell->input[0] == '\n')
 		return (SS_CLOSE);
 
-	delim_space = strchr(shell->input, ' ');
+	delim_space = _strchr(shell->input, ' ');
 
-	if (strncmp(shell->input, "alias", 5) == 0)
+	if (_strncmp(shell->input, "alias", 5) == 0)
 	{
 		if (delim_space)
 			return (handle_builtin_alias(shell, delim_space + 1));

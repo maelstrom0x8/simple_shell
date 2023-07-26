@@ -58,7 +58,7 @@ int _unsetenv(char **args)
 int terminate(char **args)
 {
 	UNUSED(args);
-	printf("exit\n");
+	_puts("exit\n");
 	exit(SS_OK);
 	return (SS_OK);
 }

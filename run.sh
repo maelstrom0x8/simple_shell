@@ -14,7 +14,7 @@ elif [ "$1" = "--check" ]; then
 elif [ "$1" = "--clean" ]; then
     rm -rf build
 else
-    gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o shell
+    gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o build/shell
     if [ $? -eq 0 ]; then
         ./build/shell
     fi
