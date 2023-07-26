@@ -99,3 +99,7 @@ Sessionx.vim
 tags
 # Persistent undo
 [._]*.un~
+
+TEST_SUITE*
+allowed_functions
+runchecker.bash
