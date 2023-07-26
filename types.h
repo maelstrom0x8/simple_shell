@@ -43,12 +43,25 @@ typedef struct cmd_list_tag
 	size_t size;
 } cmd_list_t;
 
-typedef struct alias_tag {
+/**
+ * struct alias_tag - An alias object
+ * @name: Name of the alias
+ * @value: Value of the alias
+*/
+typedef struct alias_tag
+{
 	char name[255];
 	char value[255];
 } alias_t;
 
-typedef struct alias_conf_tag {
+
+/**
+ * struct alias_conf_tag - Holds the shell's alias info
+ * @aliases: Array of all aliases
+ * @alias_count: Number of aliases
+*/
+typedef struct alias_conf_tag
+{
 	alias_t aliases[ALIAS_MAX_LIMIT];
 	int alias_count;
 } alias_ct;
@@ -57,6 +70,7 @@ typedef struct alias_conf_tag {
  * struct shell_tag - This structure holds the shell information
  * @close: Status for closing the shell
  * @input: Holds the input passed into the shell
+ * @alias: Alias info object
  * @internal_cmd_list: Default commands for the shell
  */
 typedef struct shell_tag
