@@ -9,9 +9,10 @@
 */
 int add_alias(alias_ct *aliasct, alias_t alias)
 {
+	int i;
 	int *countPtr = &(aliasct->alias_count);
 
-	for (int i = 0; i < ALIAS_MAX_LIMIT; i++)
+	for (i = 0; i < ALIAS_MAX_LIMIT; i++)
 	{
 		if ((strlen(aliasct->aliases[i].name) == 0) ||
 			(aliasct->aliases[i].name == NULL))
@@ -32,17 +33,17 @@ int add_alias(alias_ct *aliasct, alias_t alias)
 */
 alias_t *find_alias(alias_ct *aliasct, char *name)
 {
+	int i;
 	int count = aliasct->alias_count;
 
-	for (int i = 0; i < count; i++)
+	for (i = 0; i < count; i++)
 	{
 		if (strcmp((aliasct->aliases)[i].name, name) == 0)
 		{
-			printf("%s found alias %s\n", __func__, name);
 			return (&aliasct->aliases[i]);
 		}
-		return (NULL);
 	}
+	return (NULL);
 }
 
 
@@ -52,9 +53,10 @@ alias_t *find_alias(alias_ct *aliasct, char *name)
 */
 void print_aliases(alias_ct *alias_info)
 {
+	int i;
 	int count = alias_info->alias_count;
 
-	for (int i = 0; i < count; i++)
+	for (i = 0; i < count; i++)
 	{
 		printf("alias %s=\'%s\'\n", alias_info->aliases[i].name,
 			alias_info->aliases[i].value);
@@ -69,13 +71,13 @@ void print_aliases(alias_ct *alias_info)
 alias_t create_alias(char *arg)
 {
 	alias_t new_alias;
-	char *value;
+	char *value, *eq, *singlestart, *doublestart;
 	char buffer[225];
 
 	memset(&new_alias, 0, sizeof(alias_t));
 	if (arg == NULL || strlen(arg) == 0)
 		return (new_alias);
-	char *eq = strchr(arg, '=');
+	eq = strchr(arg, '=');
 
 	if (eq != NULL)
 	{
@@ -87,12 +89,12 @@ alias_t create_alias(char *arg)
 		strcpy(new_alias.value, "");
 		return (new_alias);
 	}
-	char *value = eq + 1;
+	value = eq + 1;
 
 	if (value != NULL)
 		strncpy(new_alias.name, arg, (eq - arg));
-	char *singlestart = strchr(eq + 1, '\'');
-	char *doublestart = strchr(eq + 1, '\"');
+	singlestart = strchr(eq + 1, '\'');
+	doublestart = strchr(eq + 1, '\"');
 
 	if (singlestart != NULL && is_enclosed(singlestart, '\'') == 0)
 	{
@@ -119,9 +121,10 @@ alias_t create_alias(char *arg)
 */
 int set_alias(alias_ct *aliasct, alias_t alias)
 {
+	int i;
 	int count = aliasct->alias_count;
 
-	for (int i = 0; i < count; i++)
+	for (i = 0; i < count; i++)
 	{
 		if (strcmp(aliasct->aliases[i].name, alias.name) == 0)
 		{

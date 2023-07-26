@@ -9,7 +9,6 @@
 int print_alias(alias_ct *aliasct, char *name)
 {
 	alias_t *alias = find_alias(aliasct, name);
-	char *value;
 
 	if (alias == NULL)
 	{
@@ -29,9 +28,11 @@ int print_alias(alias_ct *aliasct, char *name)
 */
 char **tokenize_alias_arg(char *input_string, size_t *num_tokens)
 {
+	char **tokens;
 	size_t token_count = 0;
 	int within_quotes = 0;
 	char *current = input_string;
+	size_t token_index = 0;
 
 	while (*current != '\0')
 	{
@@ -42,14 +43,13 @@ char **tokenize_alias_arg(char *input_string, size_t *num_tokens)
 		current++;
 	}
 	token_count++;
-	char **tokens = (char **)malloc(token_count * sizeof(char *));
+	tokens = (char **)malloc(token_count * sizeof(char *));
 
 	if (tokens == NULL)
 	{
 		*num_tokens = 0;
 		return (NULL);
 	}
-	size_t token_index = 0;
 
 	within_quotes = 0;
 	current = input_string;

@@ -30,13 +30,13 @@ void populate_commands(cmd_list_t **list)
 
 int run_command(shell_t *shell, char **args)
 {
-	int status;
+	int status = 0;
 
-	status = handle_builtin(shell, args);
+	handle_builtin(shell, args);
 
 	if (status != SS_CLOSE)
 	{
-		status = handle_external_command(args);
+		handle_external_command(args);
 	}
 
 	return (status);
@@ -69,8 +69,10 @@ int handle_builtin(shell_t *shell, char **args)
 */
 int handle_builtin_alias(shell_t *shell, char *args)
 {
-	int status;
+	size_t i;
+	char **tokens;
 	alias_ct *aliases = &(shell->alias);
+	size_t num_tokens = 0;
 
 	if (args == NULL)
 	{
@@ -79,10 +81,9 @@ int handle_builtin_alias(shell_t *shell, char *args)
 		return (SS_CLOSE);
 	}
 
-	size_t num_tokens = 0;
-	char **tokens = tokenize_alias_arg(args, &num_tokens);
+	tokens = tokenize_alias_arg(args, &num_tokens);
 
-	for (size_t i = 0; i < num_tokens; ++i)
+	for (i = 0; i < num_tokens; ++i)
 	{
 		if (is_pair(tokens[i]) == 0)
 		{
@@ -90,16 +91,16 @@ int handle_builtin_alias(shell_t *shell, char *args)
 
 			if (find_alias(&(shell->alias), alias.name) != NULL)
 			{
-				status = set_alias(&(shell->alias), alias);
+				set_alias(&(shell->alias), alias);
 			}
 			else
 			{
-				status = add_alias(&(shell->alias), alias);
+				add_alias(&(shell->alias), alias);
 			}
 		}
 		else
 		{
-			status = print_alias(&(shell->alias), tokens[i]);
+			print_alias(&(shell->alias), tokens[i]);
 		}
 	}
 	free(tokens);

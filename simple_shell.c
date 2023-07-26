@@ -11,11 +11,13 @@
  */
 void init_shell(shell_t **shell)
 {
+	int i;
+
 	*shell = (shell_t *)malloc(sizeof(shell_t));
 	(*shell)->close = 0;
 	(*shell)->input = NULL;
 	(*shell)->internal_cmd_list = NULL;
-	for (int i = 0; i < ALIAS_MAX_LIMIT; i++)
+	for (i = 0; i < ALIAS_MAX_LIMIT; i++)
 	{
 		strcpy((*shell)->alias.aliases[i].name, "");
 		strcpy((*shell)->alias.aliases[i].value, "");
@@ -119,6 +121,7 @@ int parse_command(shell_t *shell)
 	char **args = NULL;
 	int status = 0;
 	int i;
+	char *delim_space;
 	int num_tokens = 0;
 
 	trim_input(shell->input);
@@ -127,7 +130,7 @@ int parse_command(shell_t *shell)
 	if (!shell->input || shell->input[0] == '\0' || shell->input[0] == '\n')
 		return (SS_CLOSE);
 
-	char *delim_space = strchr(shell->input, ' ');
+	delim_space = strchr(shell->input, ' ');
 
 	if (strncmp(shell->input, "alias", 5) == 0)
 	{
