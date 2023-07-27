@@ -24,19 +24,19 @@ int change_directory(char **args)
 	if (new_directory == NULL)
 	{
 		_puts("Error: Home directory not found.\n");
-		return (-1);
+		return (SS_CMD_ERR);
 	}
 
 	if (getcwd(current_directory, sizeof(current_directory)) == NULL)
 	{
 		perror("getcwd");
-		return (-1);
+		return (SS_CMD_ERR);
 	}
 
 	if (chdir(new_directory) != 0)
 	{
 		perror("chdir");
-		return (-1);
+		return (SS_CMD_ERR);
 	}
 	else
 	{
@@ -49,6 +49,6 @@ int change_directory(char **args)
 		_strcpy(previous_directory, current_directory);
 		free(arg);
 	}
-	return (0);
+	return (SS_OK);
 }
 
