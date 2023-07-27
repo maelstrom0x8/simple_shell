@@ -30,13 +30,13 @@ void populate_commands(cmd_list_t **list)
 
 int run_command(shell_t *shell, char **args)
 {
-	int status = 0;
+	int status;
 
-	handle_builtin(shell, args);
+	status = handle_builtin(shell, args);
 
-	if (status != SS_CLOSE)
+	if (status != SS_OK)
 	{
-		handle_external_command(args);
+		status = handle_external_command(args);
 	}
 
 	return (status);
@@ -57,7 +57,7 @@ int handle_builtin(shell_t *shell, char **args)
 		return (cmd->function(args));
 	}
 
-	return (SS_OK);
+	return (SS_CMD_ERR);
 }
 
 
