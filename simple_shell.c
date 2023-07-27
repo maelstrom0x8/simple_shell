@@ -8,11 +8,14 @@
 /**
  * init_shell - Initializes the shell object
  * @shell: Shell object
+ * @argc: Argument count
+ * @argv: Array of shell arguments
  */
-void init_shell(shell_t **shell)
+void init_shell(shell_t **shell, int argc, char **argv)
 {
 	int i;
 
+	UNUSED(argc);
 	*shell = (shell_t *)malloc(sizeof(shell_t));
 	(*shell)->close = 0;
 	(*shell)->input = NULL;
@@ -22,6 +25,7 @@ void init_shell(shell_t **shell)
 		_strcpy((*shell)->alias.aliases[i].name, "");
 		_strcpy((*shell)->alias.aliases[i].value, "");
 	}
+	_strcpy((*shell)->prompt, argv[0]);
 }
 
 /**
@@ -42,6 +46,7 @@ int main_loop(shell_t *shell)
 		}
 		else
 		{
+			_puts(shell->prompt);
 			_puts("$ ");
 			fflush(stdout);
 			status = render_shell(shell);

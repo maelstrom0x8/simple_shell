@@ -72,6 +72,7 @@ typedef struct alias_conf_tag
  * @input: Holds the input passed into the shell
  * @alias: Alias info object
  * @internal_cmd_list: Default commands for the shell
+ * @prompt: Default prompt for the shell
  */
 typedef struct shell_tag
 {
@@ -79,7 +80,7 @@ typedef struct shell_tag
 	char *input;
 	alias_ct alias;
 	cmd_list_t *internal_cmd_list;
-
+	char prompt[255];
 } shell_t;
 
 
