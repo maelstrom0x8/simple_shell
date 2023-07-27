@@ -41,7 +41,7 @@ int main_loop(shell_t *shell)
 	{
 		if (!isatty(STDIN_FILENO))
 		{
-			render_shell(shell);
+			_non_interactive(shell);
 			break;
 		}
 		else
