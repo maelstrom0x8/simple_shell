@@ -13,7 +13,7 @@
 #include "types.h"
 
 
-void init_shell(shell_t **shell);
+void init_shell(shell_t **shell, int argc, char **argv);
 
 int main_loop(shell_t *shell);
 
