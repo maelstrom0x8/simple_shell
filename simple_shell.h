@@ -21,6 +21,6 @@ void cleanup(shell_t *shell);
 
 int render_shell(shell_t *shell);
 
-
+void _non_interactive(shell_t *shell);
 
 #endif
