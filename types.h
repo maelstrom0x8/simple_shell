@@ -37,33 +37,33 @@ typedef struct liststr
  * @modified_env: Custom modified copy of the environment variables from LL env
  * @env_changed: Flag indicating if the environment was changed
  * @return_status: The return status of the last exec'd command
- * @cmd_chain_buf: Address of the pointer to the command chaining buffer (cmd_buf)
+ * @cmd_chain_buf: Address of the pointer to the command
+ * chaining buffer (cmd_buf)
  * @cmd_chain_type: Command chaining type (CMD_type) ||, &&, ;
  * @read_fd: The file descriptor from which to read line input
  * @history_line_count: The history line number count
  */
 typedef struct command_info
 {
-    char *input_line;
-    char **arguments;
-    char *command_path;
-    int arg_count;
-    unsigned int line_num;
-    int error_code;
-    int count_this_line;
-    char *program_name;
-    list_t *environment;
-    list_t *history_node;
-    list_t *alias_node;
-    char **modified_env;
-    int env_changed;
-    int return_status;
-    char **cmd_chain_buf;
-    int cmd_chain_type;
-    int read_fd;
-    int history_line_count;
+char *input_line;
+char **arguments;
+char *command_path;
+int arg_count;
+unsigned int line_num;
+int error_code;
+int count_this_line;
+char *program_name;
+list_t *environment;
+list_t *history_node;
+list_t *alias_node;
+char **modified_env;
+int env_changed;
+int return_status;
+char **cmd_chain_buf;
+int cmd_chain_type;
+int read_fd;
+int history_line_count;
 } CommandInfo;
-
 /**
  * struct icmd_mapping_tag - Command structure
  * @command: Name of the command
@@ -80,6 +80,7 @@ typedef struct icmd_mapping_tag
  * @cmd_: Node data
  * @next: Next node
 */
+
 typedef struct cmd_node_tag
 {
 	icmd_mapping *cmd_;
