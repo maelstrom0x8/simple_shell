@@ -20,9 +20,10 @@ char *string_duplicate(char *source)
 	if (duplicate == NULL)
 		return (NULL);
 
-	for (i = 0; i < source_len; i++)
+	for (i = 0; source[i] != '\0'; i++)
 		duplicate[i] = source[i];
-
+	if (source[i] != '\0')
+		source[i] = '\0';
 	duplicate[i] = '\0';
 
 	return (duplicate);
@@ -37,9 +38,8 @@ int string_length(char *string_0)
 {
 	int length = 0;
 
-	for (; string_0[length] != '\0'; length++)
-		;
-
+	while (string_0[length] != '\0')
+		length++;
 	return (length);
 }
 
@@ -66,3 +66,4 @@ int string_compare(char *string1, char *string2, int num)
 	else
 		return ((unsigned char)*string1 - (unsigned char)*string2);
 }
+

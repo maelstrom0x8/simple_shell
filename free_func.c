@@ -11,7 +11,7 @@ void free_everything(char *buffer, char *point_tt, char **arg)
 {
 	free(buffer);
 	free(point_tt);
-	freearg(arg);
+	freeargum(arg);
 }
 /**
  * freeargum - function that frees the array of commands

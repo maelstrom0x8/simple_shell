@@ -11,18 +11,15 @@
 char *copy_buffer(char *buffer, size_t size)
 {
 	char *new_buffer;
-	size_t i;
 
 	if (buffer == NULL)
 		return (NULL);
 
-	new_buffer = (char *)malloc(size * sizeof(char));
+	new_buffer = malloc((size + 1) * sizeof(char));
 	if (new_buffer == NULL)
 		return (NULL);
 
-	for (i = 0; i < size; i++)
-		new_buffer[i] = buffer[i];
-
+	_strcpy(new_buffer, buffer);
 	return (new_buffer);
 }
 /**
@@ -33,7 +30,10 @@ char *copy_buffer(char *buffer, size_t size)
 char *int_to_string(int num)
 {
 	int num_copy = num;
-	int length = 0;
+	int num_copy2 = 0;
+	int j = 0;
+	int start = 0, end, length = 0;
+	char c;
 	char *str;
 
 	do {
@@ -41,17 +41,27 @@ char *int_to_string(int num)
 		num_copy /= 10;
 	} while (num_copy != 0);
 
-	str = (char *)malloc((length + 1) * sizeof(char));
+	str = malloc((length + 1) * sizeof(char));
 	if (str == NULL)
 		return (NULL);
 
-	str[length] = '\0';
-	do {
-		length--;
-		str[length] = '0' + (num % 10);
-		num /= 10;
-	} while (num != 0);
-
+	while (num != 0)
+	{
+		num_copy2 = num % 10;
+		str[j] = num_copy2 + '0';
+		j++;
+		num = num / 10;
+	}
+	str[j] = '\0';
+	end = length - 1;
+	while (start < end)
+	{
+		c = str[start];
+		str[start] = str[end];
+		str[end] = c;
+		start++;
+		end--;
+	}
 	return (str);
 }
 /**
@@ -67,15 +77,15 @@ void print_not_found_error(char **av, char **arg, int i)
 {
 	char *error_message;
 
-	write(STDOUT_FILENO, av[0], _strlen(av[0]));
+	write(STDOUT_FILENO, av[0], string_length(av[0]));
 	write(STDOUT_FILENO, ": ", 2);
-	error_message = num_to_string(i);
+	error_message = int_to_string(i);
 	if (error_message != NULL)
 	{
-		write(STDOUT_FILENO, error_message, _strlen(error_message));
+		write(STDOUT_FILENO, error_message, string_length(error_message));
 		free(error_message);
 		write(STDOUT_FILENO, ": ", 2);
-		write(STDOUT_FILENO, arg[0], _strlen(arg[0]));
+		write(STDOUT_FILENO, arg[0], string_length(arg[0]));
 		write(STDOUT_FILENO, ": ", 2);
 		write(STDOUT_FILENO, "Not found\n", 10);
 	}

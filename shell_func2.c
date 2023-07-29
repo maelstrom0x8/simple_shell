@@ -39,8 +39,7 @@ void envirem(char **arg, char *buffer, char *p, int n, char **av, int num)
 		return;
 	}
 
-	str_extract(env_copy, arg, buffer, n, av, num, p);
-	free(env_copy);
+	handle_path(env_copy, arg, buffer, n, av, num, p);
 }
 /**
  * _puts - its a function that print a string
@@ -62,7 +61,7 @@ void handle_envirem(char *buffer)
 {
 	int i = 0;
 
-	if (string_compare(buffer, "env\n") == 0)
+	if (_strcmp(buffer, "env\n") == 0)
 	{
 		while (environ[i] != NULL)
 		{

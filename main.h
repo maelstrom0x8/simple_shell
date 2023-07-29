@@ -28,7 +28,7 @@ char **extract_and_copy_tokens(char *copy_buffer,
 int num_tokens, char **original_args);
 void handle_path(char *env_copy, char **arg, char *buffer,
 int num_tokens, char **arg_vector,
-int command_index, char *copy_buffer __attribute__((unused)));
+int command_index, char *copy_buffer);
 char **extract_tokens(char *copy_buffer, int num_tokens);
 void free_everything(char *buffer, char *point_tt, char **arg);
 void freeargum(char **arg);

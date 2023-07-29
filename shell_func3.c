@@ -24,7 +24,7 @@ char **args_vector, int cmd_index)
 
 	if (child_pid == -1)
 	{
-		free_all(buffer, copy_buffer, arguments);
+		free_everything(buffer, copy_buffer, arguments);
 	}
 
 	if (child_pid == 0)
@@ -33,8 +33,8 @@ char **args_vector, int cmd_index)
 
 		if (result == -1)
 		{
-			print_error(args_vector, arguments, cmd_index);
-			free_all(buffer, copy_buffer, arguments);
+			print_not_found_error(args_vector, arguments, cmd_index);
+			free_everything(buffer, copy_buffer, arguments);
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -63,20 +63,20 @@ char *command_copy, char **arg_vector)
 		arguments = extract_tokens(command_copy, token_count);
 		if (arguments == NULL)
 		{
-			free_all(input_buffer, command_copy, arguments);
+			free_everything(input_buffer, command_copy, arguments);
 			return (-1);
 		}
 
 		file_path = arguments[0];
 		if (access(file_path, F_OK) == -1)
-			env_and_execute(arguments, input_buffer, command_copy,
+			envirem(arguments, input_buffer, command_copy,
 			token_count, arg_vector, command_index);
 		else
 			execute_command(arguments, input_buffer,
 			command_copy, arg_vector, command_index);
 
 		free(command_copy);
-		free_arguments(arguments);
+		freeargum(arguments);
 	}
 	return (1);
 }

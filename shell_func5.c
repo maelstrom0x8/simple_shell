@@ -14,7 +14,7 @@
  */
 void handle_path(char *env_copy, char **arg, char *buffer,
 int num_tokens, char **arg_vector,
-int command_index, char *copy_buffer __attribute__((unused)))
+int command_index, char *copy_buffer)
 {
 	char *token;
 	char **arg2 = NULL;
@@ -34,14 +34,14 @@ int command_index, char *copy_buffer __attribute__((unused)))
 			free(env_copy);
 			arg2 = extract_and_copy_tokens(path_buffer, num_tokens, arg);
 			execute_command(arg2, buffer, copy_buffer, arg_vector, command_index);
-			free_arguments(arg2);
+			freeargum(arg2);
 			return;
 		}
 	}
 
 	if (token == NULL)
 	{
-		print_error(arg_vector, arg, command_index);
+		print_not_found_error(arg_vector, arg, command_index);
 		free(env_copy);
 		return;
 	}
@@ -66,7 +66,7 @@ char **extract_tokens(char *copy_buffer, int num_tokens)
 	token = strtok(copy_buffer, " \t\n");
 	while (token != NULL)
 	{
-		arg_array[i] = malloc(sizeof(char) * (_strlen(token) + 1));
+		arg_array[i] = malloc(sizeof(char) * (string_length(token) + 1));
 		if (arg_array[i] == NULL)
 		{
 			for (j = 0; j < i; j++)

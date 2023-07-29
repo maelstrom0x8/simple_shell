@@ -11,17 +11,17 @@ int count_tokens(char *input_buffer, char *copy_buffer)
 	char *token;
 	int token_count = 0;
 
-	for (token = strtok(input_buffer, " \n");
-	token != NULL; token = strtok(NULL, " \n"))
-	{
-		token_count++;
-	}
-
-	if (token_count == 0)
+	token = strtok(input_buffer, " \n");
+	if (token == NULL)
 	{
 		free(copy_buffer);
+		return (0);
 	}
-
+	while (token != NULL)
+	{
+		token_count++;
+		token = strtok(NULL, " \n");
+		}
 	return (token_count);
 }
 /**
@@ -44,7 +44,7 @@ int num_tokens, char **original_args)
 	if (copied_args == NULL)
 		return (NULL);
 
-	copied_args[0] = malloc(sizeof(char) * (_strlen(copy_buffer) + 1));
+	copied_args[0] = malloc(sizeof(char) * (string_length(copy_buffer) + 1));
 	if (copied_args[0] == NULL)
 	{
 		free(copied_args);
@@ -56,7 +56,8 @@ int num_tokens, char **original_args)
 
 	while (i < num_tokens)
 	{
-		copied_args[i] = malloc(sizeof(char) * (_strlen(original_args[i]) + 1));
+		copied_args[i] = malloc(sizeof(char) *
+		(string_length(original_args[i]) + 1));
 		if (copied_args[i] == NULL)
 		{
 			j = 0;

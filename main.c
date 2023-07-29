@@ -20,11 +20,11 @@ int main(int argc __attribute__((unused)), char **argv)
 
 	interactive_mode = isatty(STDIN_FILENO);
 	if (interactive_mode == 1)
-		write(1, "$ ", 2);
+		write(1, "$ ", 3);
 	while ((read_result = getline(&input_line, &buffer_size, stdin)) != -1)
 	{
 		line_number++;
-		handle_env(input_line);
+		handle_envirem(input_line);
 
 		if (_strcmp(input_line, "env\n") != 0)
 		{
@@ -33,19 +33,19 @@ int main(int argc __attribute__((unused)), char **argv)
 				free(input_line);
 				exit(EXIT_SUCCESS);
 			}
-			buffer_copy = copy_buff(input_line, read_result);
+			buffer_copy = copy_buffer(input_line, read_result);
 			if (buffer_copy == NULL)
 			{
 				free(input_line);
 				return (-1);
 			}
-			process_result = _process(input_line, line_number, buffer_copy, argv);
+			process_result = process_command(input_line, line_number, buffer_copy, argv);
 			if (process_result == -1)
 				return (-1);
 		}
 
 		if (interactive_mode == 1)
-			write(1, "$ ", 2);
+			write(1, "$ ", 3);
 	}
 	if (read_result == -1)
 	{
