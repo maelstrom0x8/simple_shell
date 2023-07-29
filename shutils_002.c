@@ -44,12 +44,14 @@ int string_length(char *string_0)
 }
 
 /**
- * string_compare - Compares two strings up to a specified number of characters.
+ * string_compare - Compares two strings up to a
+ * specified number of characters.
  * @string1: Pointer to the first string.
  * @string2: Pointer to the second string.
  * @num: Number of characters to compare.
  * Return: 0 if the first n characters of string1 are equal to string2,
- * negative if string1 is less than string2, or positive if string1 is greater than str2.
+ * negative if string1 is less than string2, or
+ * positive if string1 is greater than str2.
  */
 int string_compare(char *string1, char *string2, int num)
 {
