@@ -32,10 +32,10 @@ int command_index, char *copy_buffer);
 char **extract_tokens(char *copy_buffer, int num_tokens);
 void free_everything(char *buffer, char *point_tt, char **arg);
 void freeargum(char **arg);
-void handle_sharp(char *input_line, ssize_t
-read_result, char *buffer_copy);
+void handle_sharp(char *input_line, char *buffer_copy);
 void handle_cd(char **arguments __attribute__((unused)));
-
+int process_command(char *input_buffer, int command_index,
+char *command_copy, char **arg_vector);
 
 
 #endif

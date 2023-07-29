@@ -62,7 +62,6 @@ char **extract_tokens(char *copy_buffer, int num_tokens)
 	arg_array = malloc(sizeof(char *) * (num_tokens + 1));
 	if (arg_array == NULL)
 		return (NULL);
-
 	token = strtok(copy_buffer, " \t\n");
 	while (token != NULL)
 	{

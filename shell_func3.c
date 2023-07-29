@@ -79,5 +79,3 @@ char *command_copy, char **arg_vector)
 	}
 	return (1);
 }
-
-

@@ -83,43 +83,46 @@ int num_tokens, char **original_args)
  *
  * Return: None.
  */
-void handle_cd(char **arguments __attribute__((unused)))
+void handle_cd(char **arguments)
 {
 	char *new_dir;
 	char current_dir[1024];
+	char *pwd;
 
 	if (arguments[1] == NULL || strcmp(arguments[1], "~") == 0)
-	{
 		new_dir = getenv("HOME");
-		if (chdir(new_dir) == -1)
-			perror("cd error");
-	}
 	else if (strcmp(arguments[1], "-") == 0)
 	{
 		new_dir = getenv("OLDPWD");
 		if (new_dir == NULL)
+		{
 			fprintf(stderr, "OLDPWD not set\n");
-		else
-			printf("%s\n", new_dir);
-		if (chdir(new_dir) == -1)
-			perror("cd error");
+			return;
+		}
+		printf("%s\n", new_dir);
 	}
 	else
-	{
 		new_dir = arguments[1];
-		if (chdir(new_dir) == -1)
-			perror("cd error");
+	if (chdir(new_dir) == -1)
+	{
+		perror("cd error");
+		return;
 	}
 	if (getcwd(current_dir, sizeof(current_dir)) == NULL)
-		perror("getcwd error");
-	else
 	{
-		if (setenv("OLDPWD", getenv("PWD"), 1) == -1)
-			perror("setenv error");
-		if (setenv("PWD", current_dir, 1) == -1)
-			perror("setenv error");
+		perror("getcwd error");
+		return;
+	}
+	pwd = getenv("PWD");
+
+	if (setenv("OLDPWD", pwd, 1) == -1)
+	{
+		perror("setenv error");
+		return;
+	}
+	if (setenv("PWD", current_dir, 1) == -1)
+	{
+		perror("setenv error");
+		return;
 	}
 }
-
-
-

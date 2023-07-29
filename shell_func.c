@@ -7,9 +7,11 @@
  *
  * Return: Nothing.
  */
-void handle_sharp(char *input_line, ssize_t read_result, char *buffer_copy)
+void handle_sharp(char *input_line, char *buffer_copy)
 {
 	char *comment_start = strchr(input_line, '#');
+	int j;
+	char **arguments;
 
 	if (comment_start != NULL)
 	{
@@ -23,10 +25,14 @@ void handle_sharp(char *input_line, ssize_t read_result, char *buffer_copy)
 	if (_strcmp(input_line, "cd") == 0 ||
 	string_compare(input_line, "cd ", 3) == 0)
 	{
-		char **arguments = extract_tokens(buffer_copy, read_result);
+		j = count_tokens(input_line, buffer_copy);
+		arguments = extract_tokens(buffer_copy, j);
 
-		handle_cd(arguments);
-		freeargum(arguments);
+		if (arguments != NULL)
+		{
+			handle_cd(arguments);
+			freeargum(arguments);
+		}
 	}
 }
 

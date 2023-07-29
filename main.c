@@ -24,7 +24,7 @@ int main(int argc __attribute__((unused)), char **argv)
 	while ((read_result = getline(&input_line, &buffer_size, stdin)) != -1)
 	{
 		line_number++;
-		handle_sharp(input_line, read_result, buffer_copy);
+		handle_sharp(input_line, buffer_copy);
 		handle_envirem(input_line);
 		if (_strcmp(input_line, "env\n") != 0)
 		{
@@ -43,7 +43,7 @@ int main(int argc __attribute__((unused)), char **argv)
 			buffer_copy, argv);
 			if (process_result == -1)
 				return (-1);
-		}
+			}
 		if (interactive_mode == 1)
 			write(1, "$ ", 3);
 	}
