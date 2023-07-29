@@ -77,5 +77,44 @@ int num_tokens, char **original_args)
 	copied_args[i] = NULL;
 	return (copied_args);
 }
+/**
+ * handle_cd - Handle the cd command.
+ * @arguments: The arguments passed to cd command (unused).
+ *
+ * Return: None.
+ */
+void handle_cd(char **arguments __attribute__((unused)))
+{
+	char *new_dir;
+	char current_dir[1024];
 
+	new_dir = getenv("HOME");
+	if (arguments[1] == NULL || strcmp(arguments[1], "~") == 0)
+	{
+		if (chdir(new_dir) == -1)
+			perror("cd error");
+	}
+	else if (strcmp(arguments[1], "-") == 0)
+	{
+		new_dir = getenv("OLDPWD");
+		if (new_dir == NULL)
+			fprintf(stderr, "OLDPWD not set\n");
+		else
+			printf("%s\n", new_dir);
+		if (chdir(new_dir) == -1)
+			perror("cd error");
+	}
+	else if (chdir(arguments[1]) == -1)
+		perror("cd error");
+
+	if (getcwd(current_dir, sizeof(current_dir)) == NULL)
+		perror("getcwd error");
+	else
+	{
+		if (setenv("OLDPWD", getenv("PWD"), 1) == -1)
+			perror("setenv error");
+		if (setenv("PWD", current_dir, 1) == -1)
+			perror("setenv error");
+	}
+}
 
