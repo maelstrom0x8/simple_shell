@@ -25,7 +25,6 @@ int main(int argc __attribute__((unused)), char **argv)
 	{
 		line_number++;
 		handle_envirem(input_line);
-
 		if (_strcmp(input_line, "env\n") != 0)
 		{
 			if (_strcmp(input_line, "exit\n") == 0)
@@ -44,7 +43,6 @@ int main(int argc __attribute__((unused)), char **argv)
 			if (process_result == -1)
 				return (-1);
 		}
-
 		if (interactive_mode == 1)
 			write(1, "$ ", 3);
 	}
