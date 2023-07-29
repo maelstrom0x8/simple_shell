@@ -79,7 +79,7 @@ int num_tokens, char **original_args)
 }
 /**
  * handle_cd - Handle the cd command.
- * @arguments: The arguments passed to cd command (unused).
+ * @arguments: The arguments passed to cd command.
  *
  * Return: None.
  */
@@ -88,9 +88,9 @@ void handle_cd(char **arguments __attribute__((unused)))
 	char *new_dir;
 	char current_dir[1024];
 
-	new_dir = getenv("HOME");
 	if (arguments[1] == NULL || strcmp(arguments[1], "~") == 0)
 	{
+		new_dir = getenv("HOME");
 		if (chdir(new_dir) == -1)
 			perror("cd error");
 	}
@@ -104,9 +104,12 @@ void handle_cd(char **arguments __attribute__((unused)))
 		if (chdir(new_dir) == -1)
 			perror("cd error");
 	}
-	else if (chdir(arguments[1]) == -1)
-		perror("cd error");
-
+	else
+	{
+		new_dir = arguments[1];
+		if (chdir(new_dir) == -1)
+			perror("cd error");
+	}
 	if (getcwd(current_dir, sizeof(current_dir)) == NULL)
 		perror("getcwd error");
 	else
@@ -117,4 +120,6 @@ void handle_cd(char **arguments __attribute__((unused)))
 			perror("setenv error");
 	}
 }
+
+
 

@@ -34,8 +34,7 @@ void free_everything(char *buffer, char *point_tt, char **arg);
 void freeargum(char **arg);
 void handle_sharp(char *input_line, ssize_t
 read_result, char *buffer_copy);
-void handle_cd(char **arguments);
-
+void handle_cd(char **arguments __attribute__((unused)));
 
 
 
