@@ -24,6 +24,7 @@ void envirem(char **arg, char *buffer, char *p, int n, char **av, int num)
 			env_path = environ[index] + 5;
 			break;
 		}
+		index++;
 	}
 
 	if (env_path == NULL)
