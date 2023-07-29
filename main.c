@@ -24,6 +24,7 @@ int main(int argc __attribute__((unused)), char **argv)
 	while ((read_result = getline(&input_line, &buffer_size, stdin)) != -1)
 	{
 		line_number++;
+		handle_sharp(input_line);
 		handle_envirem(input_line);
 		if (_strcmp(input_line, "env\n") != 0)
 		{

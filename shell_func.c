@@ -2,6 +2,24 @@
 #include <stdlib.h>
 
 /**
+ * handle_sharp - Find the position of '#' in the input
+ * @input_line: Pointer to the source buffer.
+ *
+ * Return: Nothing.
+ */
+void handle_sharp(char *input_line)
+{
+	char *comment_start = strchr(input_line, '#');
+
+	if (comment_start != NULL)
+	{
+		size_t comment_index = comment_start - input_line;
+
+		input_line[comment_index] = '\0';
+	}
+
+}
+/**
  * copy_buffer - Copies the contents of a buffer to a new buffer.
  * @buffer: Pointer to the source buffer.
  * @size: Size of the buffer.

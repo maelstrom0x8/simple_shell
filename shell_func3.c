@@ -25,6 +25,7 @@ char **args_vector, int cmd_index)
 	if (child_pid == -1)
 	{
 		free_everything(buffer, copy_buffer, arguments);
+		
 	}
 
 	if (child_pid == 0)
