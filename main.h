@@ -19,7 +19,7 @@ void print_not_found_error(char **av, char **arg, int i);
 void envirem(char **arg, char *buffer, char *p, int n, char **av, int num);
 void _puts(char *strg, int iden);
 void handle_envirem(char *buffer);
-void execute_commande(char **arguments, char *buffer, char *copy_buffer,
+void execute_command(char **arguments, char *buffer, char *copy_buffer,
 char **args_vector, int cmd_index);
 int process_command(char *input_buffer, int command_index,
 char *command_copy, char **arg_vector);
