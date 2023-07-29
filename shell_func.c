@@ -20,8 +20,11 @@ void handle_sharp(char *input_line)
 			input_line[comment_index] = '\0';
 		}
 	}
-
+	if (_strcmp(input_line, "cd") == 0)
+		handle_cd(NULL);
 }
+
+
 
 /**
  * copy_buffer - Copies the contents of a buffer to a new buffer.
