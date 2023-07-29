@@ -13,12 +13,16 @@ void handle_sharp(char *input_line)
 
 	if (comment_start != NULL)
 	{
-		size_t comment_index = comment_start - input_line;
+		if (comment_start == input_line  || *(comment_start - 1) == ' ')
+		{
+			size_t comment_index = comment_start - input_line;
 
-		input_line[comment_index] = '\0';
+			input_line[comment_index] = '\0';
+		}
 	}
 
 }
+
 /**
  * copy_buffer - Copies the contents of a buffer to a new buffer.
  * @buffer: Pointer to the source buffer.
