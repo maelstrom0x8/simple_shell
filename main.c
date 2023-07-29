@@ -13,7 +13,7 @@
  */
 int main(int argc __attribute__((unused)), char **argv)
 {
-	char *input_line = NULL, *buffer_copy = NULL;
+	char *input_line = NULL, *buffer_copy;
 	size_t buffer_size;
 	ssize_t read_result;
 	int line_number = 0, interactive_mode, process_result;
@@ -53,3 +53,4 @@ int main(int argc __attribute__((unused)), char **argv)
 	}
 	return (0);
 }
+
