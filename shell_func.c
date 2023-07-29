@@ -7,7 +7,7 @@
  *
  * Return: Nothing.
  */
-void handle_sharp(char *input_line)
+void handle_sharp(char *input_line, ssize_t read_result, char *buffer_copy)
 {
 	char *comment_start = strchr(input_line, '#');
 
@@ -20,8 +20,14 @@ void handle_sharp(char *input_line)
 			input_line[comment_index] = '\0';
 		}
 	}
-	if (_strcmp(input_line, "cd") == 0)
-		handle_cd(NULL);
+	if (_strcmp(input_line, "cd") == 0 ||
+	string_compare(input_line, "cd ", 3) == 0)
+	{
+		char **arguments = extract_tokens(buffer_copy, read_result);
+
+		handle_cd(arguments);
+		freeargum(arguments);
+	}
 }
 
 
