@@ -1,22 +1,56 @@
-#include "simple_shell.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include <sys/wait.h>
+#include "main.h"
 
 /**
- * main - Entry point
- * @argc: Argument count
- * @argv:  Array of program arguments
- * Return: Always 0.
+ * main - entry point
+ * @argc: the number of arguments
+ * @argv: the argument vector
+ * Return: 0 on success, -1 on failure
  */
-
-int main(int argc, char **argv)
+int main(int argc __attribute__((unused)), char **argv)
 {
-	int status = 0;
-	shell_t *shell = NULL;
+	char *input_line = NULL, *buffer_copy = NULL;
+	size_t buffer_size;
+	ssize_t read_result;
+	int line_number = 0, interactive_mode, process_result;
 
-	init_shell(&shell, argc, argv);
-	init_cmd_list(&(shell->internal_cmd_list));
-	populate_commands(&(shell->internal_cmd_list));
-	main_loop(shell);
-	cleanup(shell);
+	interactive_mode = isatty(STDIN_FILENO);
+	if (interactive_mode == 1)
+		write(1, "$ ", 2);
+	while ((read_result = getline(&input_line, &buffer_size, stdin)) != -1)
+	{
+		line_number++;
+		handle_env(input_line);
 
-	return (status);
+		if (_strcmp(input_line, "env\n") != 0)
+		{
+			if (_strcmp(input_line, "exit\n") == 0)
+			{
+				free(input_line);
+				exit(EXIT_SUCCESS);
+			}
+			buffer_copy = copy_buff(input_line, read_result);
+			if (buffer_copy == NULL)
+			{
+				free(input_line);
+				return (-1);
+			}
+			process_result = _process(input_line, line_number, buffer_copy, argv);
+			if (process_result == -1)
+				return (-1);
+		}
+
+		if (interactive_mode == 1)
+			write(1, "$ ", 2);
+	}
+	if (read_result == -1)
+	{
+		free(input_line);
+		exit(EXIT_SUCCESS);
+	}
+	return (0);
 }
