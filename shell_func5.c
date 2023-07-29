@@ -53,7 +53,7 @@ int command_index, char *copy_buffer __attribute__((unused)))
  *
  * Return: NULL if it fails or a pointer to character if it succeeds.
  */
-char **extract_and_copy_tokens(char *copy_buffer, int num_tokens)
+char **extract_tokens(char *copy_buffer, int num_tokens)
 {
 	char *token;
 	int i = 0, j;
