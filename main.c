@@ -39,7 +39,8 @@ int main(int argc __attribute__((unused)), char **argv)
 				free(input_line);
 				return (-1);
 			}
-			process_result = process_command(input_line, line_number, buffer_copy, argv);
+			process_result = process_command(input_line, line_number,
+			buffer_copy, argv);
 			if (process_result == -1)
 				return (-1);
 		}
